@@ -33,6 +33,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation("io.ktor:ktor-client-android:2.3.2")
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -43,6 +44,13 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation("io.ktor:ktor-client-core:2.3.2")
+            implementation("io.ktor:ktor-client-content-negotiation:2.3.2")
+            implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.2")
+            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+        }
+        iosMain.dependencies {
+            implementation("io.ktor:ktor-client-darwin:2.3.2")
         }
     }
 }
@@ -72,6 +80,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 }
 
 dependencies {
