@@ -15,39 +15,99 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.smartline.app.models.ApiRequest
+import org.smartline.app.models.ApiResponse
 
-import smartline.composeapp.generated.resources.Res
-import smartline.composeapp.generated.resources.compose_multiplatform
 
 @Composable
 @Preview
 fun App() {
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
+        var showLogin by remember { mutableStateOf(true) }
+        var showRegister by remember { mutableStateOf(false) }
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
+        var apiResponse by remember { mutableStateOf(ApiResponse(500, null, null)) }
         Box( modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Column( modifier = Modifier.fillMaxWidth(0.8f),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                TextField(value = email, onValueChange = {
-                    email = it
-                }, label = { Text("E-mail") })
+            AnimatedVisibility(showLogin) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(0.8f),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    TextField(value = email, onValueChange = {
+                        email = it
+                    }, label = { Text("E-mail") })
 
-                TextField(value = password, onValueChange = {
-                    password = it
-                }, label = { Text("Password") })
+                    TextField(value = password, onValueChange = {
+                        password = it
+                    }, label = { Text("Password") })
 
-                Button(onClick = {
-                    showContent = true
-                }) {
-                    Text("Login")
+                    Button(onClick = {
+                        val apiRequest =
+                            ApiRequest("", mapOf("email" to email, "password" to password))
+                        kotlinx.coroutines.MainScope().launch {
+                            apiResponse = apiRequest.send()
+                            showContent = true
+                        }
+                    }) {
+                        Text("Login")
+                    }
+                    Text("- or -")
+                    Button(onClick = {
+                        showRegister = true
+                        showLogin = false
+                    }) {
+                        Text("Sign up")
+                    }
+                    AnimatedVisibility(showContent) {
+                        Column {
+                            Text("Status: ${apiResponse.status}")
+                            Text("Data: ${apiResponse.data}")
+                            Text("Error: ${apiResponse.error}")
+                        }
+                    }
                 }
-                AnimatedVisibility(showContent) {
-                    Text(email)
-                    Text(password)
+            }
+            AnimatedVisibility(showRegister) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(0.8f),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    var repeatedPassword by remember { mutableStateOf("") }
+
+                    TextField(value = email, onValueChange = {
+                        email = it
+                    }, label = { Text("E-mail") })
+
+                    TextField(value = password, onValueChange = {
+                        password = it
+                    }, label = { Text("Password") })
+
+                    TextField(value = repeatedPassword, onValueChange = {
+                        repeatedPassword = it
+                    }, label = { Text("Confirm password") })
+
+                    Button(onClick = {
+                        val apiRequest =
+                            ApiRequest(
+                                "https://smartlineapi.pythonanywhere.com/api/auth/register",
+                                mapOf("email" to email, "password1" to password,
+                                "password2" to repeatedPassword))
+                        kotlinx.coroutines.MainScope().launch {
+                            apiResponse = apiRequest.send()
+                            showRegister = false
+                            showLogin = true
+                            showContent = true
+                        }
+                    }) {
+                        Text("Sign up")
+                    }
                 }
             }
         }
