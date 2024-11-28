@@ -49,7 +49,9 @@ fun App() {
 
                     Button(onClick = {
                         val apiRequest =
-                            ApiRequest("", mapOf("email" to email, "password" to password))
+                            ApiRequest(
+                                "https://smartlineapi.pythonanywhere.com/api/auth/login/",
+                                mapOf("email" to email, "password" to password))
                         kotlinx.coroutines.MainScope().launch {
                             apiResponse = apiRequest.send()
                             showContent = true
@@ -96,7 +98,7 @@ fun App() {
                     Button(onClick = {
                         val apiRequest =
                             ApiRequest(
-                                "https://smartlineapi.pythonanywhere.com/api/auth/register",
+                                "https://smartlineapi.pythonanywhere.com/api/auth/register/",
                                 mapOf("email" to email, "password1" to password,
                                 "password2" to repeatedPassword))
                         kotlinx.coroutines.MainScope().launch {
