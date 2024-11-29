@@ -48,9 +48,14 @@ kotlin {
             implementation("io.ktor:ktor-client-content-negotiation:2.3.2")
             implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.2")
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+            implementation("org.jetbrains.compose.runtime:runtime:1.7.0")
+            implementation("org.jetbrains.compose.material:material:1.7.0")
         }
         iosMain.dependencies {
             implementation("io.ktor:ktor-client-darwin:2.3.2")
+            implementation("androidx.compose.material:material-icons-core:1.7.5")
+            implementation("androidx.compose.material:material-icons-extended:1.7.5")
+            implementation("androidx.compose.ui:ui:1.7.5")
         }
     }
 }
@@ -84,6 +89,9 @@ android {
 }
 
 dependencies {
+    implementation("androidx.compose.material3:material3-lint:1.4.0-alpha04")
+    implementation(compose.ui)
+    implementation(compose.material)
     debugImplementation(compose.uiTooling)
 }
 
