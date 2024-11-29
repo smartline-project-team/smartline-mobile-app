@@ -15,24 +15,32 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.smartline.app.views.auth.AuthView
 import org.smartline.app.views.auth.ConfirmEmailView
+import org.smartline.app.views.start.WelcomeView
 
 
 @Composable
 @Preview
 fun App() {
     MaterialTheme {
-        val showContent = remember { mutableStateOf(true) }
-        val showConfirmation = remember { mutableStateOf(false) }
-        Box( modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            //LoginView(showLogin = showLogin, showRegister = showRegister, showContent = showContent)
-            //RegisterView(showLogin = showLogin, showRegister = showRegister, showContent = showContent)
-            Column(
-                modifier = Modifier.fillMaxWidth(0.8f),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                AuthView(showContent = showContent, showConfirmation = showConfirmation)
-                ConfirmEmailView(showContent = showConfirmation)
+        val screen = remember { mutableStateOf("welcomeScreen") }
+        when(screen.value) {
+            "welcomeScreen" -> WelcomeView(screen)
+
+            "authScreen" -> {
+                val showContent = remember { mutableStateOf(true) }
+                val showConfirmation = remember { mutableStateOf(false) }
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    //LoginView(showLogin = showLogin, showRegister = showRegister, showContent = showContent)
+                    //RegisterView(showLogin = showLogin, showRegister = showRegister, showContent = showContent)
+                    Column(
+                        modifier = Modifier.fillMaxWidth(0.8f),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        AuthView(showContent = showContent, showConfirmation = showConfirmation)
+                        ConfirmEmailView(showContent = showConfirmation)
+                    }
+                }
             }
         }
     }
