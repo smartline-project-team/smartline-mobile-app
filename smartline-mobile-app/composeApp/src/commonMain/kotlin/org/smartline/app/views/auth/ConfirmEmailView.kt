@@ -50,7 +50,7 @@ fun ConfirmEmailView(showContent: MutableState<Boolean>) {
                                 newCode[index] = input
                                 code = newCode
 
-                                if (input.isNotEmpty() && index < digitsQuantity) {
+                                if (input.isNotEmpty() && index < digitsQuantity - 1) {
                                     focusRequesters[index + 1].requestFocus()
                                 }
                             }
@@ -69,7 +69,7 @@ fun ConfirmEmailView(showContent: MutableState<Boolean>) {
                         ),
                         keyboardActions = KeyboardActions(
                             onDone = {
-                                if (index == digitsQuantity - 1) {
+                                if (index == digitsQuantity - 2) {
                                     focusRequesters[index].freeFocus()
                                 }
                             }
