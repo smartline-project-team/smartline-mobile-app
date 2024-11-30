@@ -17,11 +17,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
+import org.smartline.app.generated.resources.Res
+import org.smartline.app.generated.resources.login
+import org.smartline.app.generated.resources.email
 import org.smartline.app.models.ApiRequest
 
 @Composable
 fun AuthView(showContent: MutableState<Boolean>, showConfirmation: MutableState<Boolean>) {
     var email by remember { mutableStateOf("") }
+    val emailLabel = stringResource(Res.string.email)
+    val loginLabel = stringResource(Res.string.login)
     AnimatedVisibility(showContent.value) {
         Column(
             modifier = Modifier.fillMaxWidth(0.8f),
@@ -33,7 +39,7 @@ fun AuthView(showContent: MutableState<Boolean>, showConfirmation: MutableState<
                 onValueChange = {
                     email = it
                 },
-                label = { Text("Email") }
+                label = { Text(emailLabel) }
             )
             Button(onClick = {
                 val apiRequest =
@@ -47,7 +53,7 @@ fun AuthView(showContent: MutableState<Boolean>, showConfirmation: MutableState<
                     }
                 }
             }) {
-                Text("Login")
+                Text(loginLabel)
             }
         }
     }

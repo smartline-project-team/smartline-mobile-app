@@ -23,12 +23,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.stringResource
+import org.smartline.app.generated.resources.Res
+import org.smartline.app.generated.resources.welcome_button_text
+import org.smartline.app.generated.resources.welcome_message
 
 @Composable
 fun WelcomeView(next: MutableState<String>) {
     val alphaText = remember { Animatable(0f) }
     val alphaButton = remember { Animatable(0f) }
-
+    val welcomeMessage = stringResource(Res.string.welcome_message)
+    val welcomeButtonText = stringResource(Res.string.welcome_button_text)
     LaunchedEffect(Unit) {
         alphaText.animateTo(
             targetValue = 1f,
@@ -49,7 +54,7 @@ fun WelcomeView(next: MutableState<String>) {
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                text = "Приветствуем вас\nв smartline!",
+                text = welcomeMessage,
                 color = Color.Black,
                 fontSize = 24.sp,
                 textAlign = TextAlign.Center,
@@ -61,7 +66,7 @@ fun WelcomeView(next: MutableState<String>) {
                 modifier = Modifier
                     .alpha(alphaButton.value)
             ) {
-                Text(text = "Вперёд")
+                Text(text = welcomeButtonText)
             }
         }
     }
