@@ -5,15 +5,22 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Button
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -40,7 +47,7 @@ fun WelcomeView(next: MutableState<String>, currentLanguage: MutableState<String
     val languages = listOf(Resources.strings.englishText, Resources.strings.russianText,
         Resources.strings.kyrgyzText)
     var expanded by remember { mutableStateOf(false) }
-    var selectedLanguage by remember { mutableStateOf(languages[0]) }
+    var selectedLanguage by remember { mutableStateOf(currentLanguage.value) }
     LaunchedEffect(Unit) {
         alphaText.animateTo(
             targetValue = 1f,
@@ -75,34 +82,59 @@ fun WelcomeView(next: MutableState<String>, currentLanguage: MutableState<String
             ) {
                 Text(text = welcomeButtonText)
             }
-            Text(
-                text = "Selected: $selectedLanguage",
-                modifier = Modifier.clickable { expanded = true }
-                    .alpha(alphaButton.value)
-            )
+        }
+    }
 
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false },
-                modifier = Modifier.background(Color.White)
-            ) {
-                languages.forEach { language ->
-                    DropdownMenuItem(
-                        onClick = {
-                            selectedLanguage = language
-                            when(language) {
-                                "English" -> currentLanguage.value = "en"
-                                "Русский" -> currentLanguage.value = "ru"
-                                "Кыргыздар" -> currentLanguage.value = "kg"
-                                else -> currentLanguage.value = "en"
-                            }
-                            expanded = false
+    Box(
+        modifier = Modifier
+            .fillMaxSize() // Ensures the parent Box takes the full available size
+    ) {
+    Box(
+        modifier = Modifier
+            .alpha(alphaButton.value)
+            .align(Alignment.TopEnd)
+            .wrapContentSize(Alignment.TopEnd)
+            .padding(8.dp)
+            .background(Color.LightGray)
+            .clickable { expanded = true }
+            .padding(8.dp)
+    ) {
+        Row(
+            modifier = Modifier.wrapContentSize(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Text(
+                selectedLanguage
+            )
+            Icon(
+                imageVector = Icons.Default.ArrowDropDown,
+                contentDescription = null,
+                tint = Color.Black
+            )
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.background(Color.White).alpha(alphaButton.value)
+        ) {
+            languages.forEach { language ->
+                DropdownMenuItem(
+                    onClick = {
+                        when (language) {
+                            "English" -> currentLanguage.value = "en"
+                            "Русский" -> currentLanguage.value = "ru"
+                            "Кыргыздар" -> currentLanguage.value = "kg"
+                            else -> currentLanguage.value = "en"
                         }
-                    ) {
-                        Text(text = language)
+                        selectedLanguage = currentLanguage.value
+                        expanded = false
                     }
+                ) {
+                    Text(text = language)
                 }
             }
         }
     }
+        }
 }
