@@ -41,9 +41,4 @@ class ApiRequest(val apiLink: String, val parameters: Map<String, String>) {
     }
 }
 
-data class ApiResponse(
-    val status: Int,
-    val data: Any? = null,
-    val error: String? = null
-)
 
