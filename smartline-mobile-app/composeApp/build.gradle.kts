@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -7,6 +6,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    kotlin("plugin.serialization") version "1.9.10"
 }
 
 kotlin {
@@ -50,14 +50,18 @@ kotlin {
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
             implementation("org.jetbrains.compose.runtime:runtime:1.7.0")
             implementation("org.jetbrains.compose.material:material:1.7.0")
+            api(compose.components.resources)
         }
         iosMain.dependencies {
             implementation("io.ktor:ktor-client-darwin:2.3.2")
-            implementation("androidx.compose.material:material-icons-core:1.7.5")
-            implementation("androidx.compose.material:material-icons-extended:1.7.5")
-            implementation("androidx.compose.ui:ui:1.7.5")
         }
     }
+}
+
+compose.resources {
+    publicResClass = false
+    packageOfResClass = "org.smartline.app.generated.resources"
+    generateResClass = auto
 }
 
 android {
