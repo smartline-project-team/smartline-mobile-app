@@ -33,7 +33,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-            implementation("io.ktor:ktor-client-android:2.3.2")
+            implementation(libs.ktor.client.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -44,16 +44,16 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation("io.ktor:ktor-client-core:2.3.2")
-            implementation("io.ktor:ktor-client-content-negotiation:2.3.2")
-            implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.2")
-            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
-            implementation("org.jetbrains.compose.runtime:runtime:1.7.0")
-            implementation("org.jetbrains.compose.material:material:1.7.0")
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.runtime)
+            implementation(libs.material)
             api(compose.components.resources)
         }
         iosMain.dependencies {
-            implementation("io.ktor:ktor-client-darwin:2.3.2")
+            implementation(libs.ktor.client.darwin)
         }
     }
 }
@@ -89,11 +89,14 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    androidResources {
+        generateLocaleConfig = true
+    }
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 }
 
 dependencies {
-    implementation("androidx.compose.material3:material3-lint:1.4.0-alpha04")
+    implementation(libs.androidx.material3.lint)
     implementation(compose.ui)
     implementation(compose.material)
     debugImplementation(compose.uiTooling)

@@ -4,17 +4,23 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.Button
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -23,17 +29,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
-import org.jetbrains.compose.resources.stringResource
-import org.smartline.app.generated.resources.Res
-import org.smartline.app.generated.resources.welcome_button_text
-import org.smartline.app.generated.resources.welcome_message
+import org.smartline.app.models.resources.Resources
 
 @Composable
-fun WelcomeView(next: MutableState<String>) {
+fun WelcomeView(next: MutableState<String>, currentLanguage: MutableState<String>) {
     val alphaText = remember { Animatable(0f) }
     val alphaButton = remember { Animatable(0f) }
-    val welcomeMessage = stringResource(Res.string.welcome_message)
-    val welcomeButtonText = stringResource(Res.string.welcome_button_text)
+    val welcomeMessage = Resources.strings.welcomeMessage
+    val welcomeButtonText = Resources.strings.welcomeButtonText
+    val languages = listOf(Resources.strings.englishText, Resources.strings.russianText,
+        Resources.strings.kyrgyzText)
+    var expanded by remember { mutableStateOf(false) }
+    var selectedLanguage by remember { mutableStateOf(languages[0]) }
     LaunchedEffect(Unit) {
         alphaText.animateTo(
             targetValue = 1f,
@@ -67,6 +74,34 @@ fun WelcomeView(next: MutableState<String>) {
                     .alpha(alphaButton.value)
             ) {
                 Text(text = welcomeButtonText)
+            }
+            Text(
+                text = "Selected: $selectedLanguage",
+                modifier = Modifier.clickable { expanded = true }
+                    .alpha(alphaButton.value)
+            )
+
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier.background(Color.White)
+            ) {
+                languages.forEach { language ->
+                    DropdownMenuItem(
+                        onClick = {
+                            selectedLanguage = language
+                            when(language) {
+                                "English" -> currentLanguage.value = "en"
+                                "Русский" -> currentLanguage.value = "ru"
+                                "Кыргыздар" -> currentLanguage.value = "kg"
+                                else -> currentLanguage.value = "en"
+                            }
+                            expanded = false
+                        }
+                    ) {
+                        Text(text = language)
+                    }
+                }
             }
         }
     }
