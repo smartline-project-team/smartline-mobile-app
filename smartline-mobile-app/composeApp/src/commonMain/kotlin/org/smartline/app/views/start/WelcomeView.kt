@@ -32,12 +32,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.Font
+import org.smartline.app.KColor
+import org.smartline.app.generated.resources.Jost
+import org.smartline.app.generated.resources.Res
 import org.smartline.app.models.resources.Resources
 
 @Composable
@@ -65,14 +69,15 @@ fun WelcomeView(next: MutableState<String>, currentLanguage: MutableState<String
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White),
+            .background(KColor.background),
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
                 text = welcomeMessage,
-                color = Color.Black,
-                fontSize = 24.sp,
+                color = KColor.secondary,
+                fontSize = 32.sp,
+                fontFamily = FontFamily(Font(Res.font.Jost)),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.alpha(alphaText.value)
             )
@@ -82,7 +87,8 @@ fun WelcomeView(next: MutableState<String>, currentLanguage: MutableState<String
                 modifier = Modifier
                     .alpha(alphaButton.value)
             ) {
-                Text(text = welcomeButtonText)
+                Text(text = welcomeButtonText, color = KColor.background,
+                    fontSize = 16.sp, fontFamily = FontFamily(Font(Res.font.Jost)))
             }
         }
     }
@@ -91,54 +97,53 @@ fun WelcomeView(next: MutableState<String>, currentLanguage: MutableState<String
         modifier = Modifier
             .fillMaxSize()
     ) {
+        Box(
+            modifier = Modifier
+                .alpha(alphaButton.value)
+                .align(Alignment.TopEnd)
+                .wrapContentSize(Alignment.TopEnd)
+                .padding(8.dp)
+                .background(Color.LightGray, shape = RoundedCornerShape(8.dp))
+                .clickable { expanded = true }
+                .padding(8.dp)
 
-    Box(
-        modifier = Modifier
-            .alpha(alphaButton.value)
-            .align(Alignment.TopEnd)
-            .wrapContentSize(Alignment.TopEnd)
-            .padding(8.dp)
-            .background(Color.LightGray, shape = RoundedCornerShape(8.dp))
-            .clickable { expanded = true }
-            .padding(8.dp)
-
-    ) {
-        Row(
-            modifier = Modifier.wrapContentSize(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Text(
-                selectedLanguage
-            )
-            Icon(
-                imageVector = Icons.Default.ArrowDropDown,
-                contentDescription = null,
-                tint = Color.Black
-            )
-        }
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier.background(Color.White).alpha(alphaButton.value)
-        ) {
-            languages.forEach { language ->
-                DropdownMenuItem(
-                    onClick = {
-                        when (language) {
-                            "English" -> currentLanguage.value = "en"
-                            "Русский" -> currentLanguage.value = "ru"
-                            "Кыргыздар" -> currentLanguage.value = "kg"
-                            else -> currentLanguage.value = "en"
+            Row(
+                modifier = Modifier.wrapContentSize(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text(
+                    selectedLanguage
+                )
+                Icon(
+                    imageVector = Icons.Default.ArrowDropDown,
+                    contentDescription = null,
+                    tint = Color.Black
+                )
+            }
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier.background(Color.White).alpha(alphaButton.value)
+            ) {
+                languages.forEach { language ->
+                    DropdownMenuItem(
+                        onClick = {
+                            when (language) {
+                                "English" -> currentLanguage.value = "en"
+                                "Русский" -> currentLanguage.value = "ru"
+                                "Кыргыздар" -> currentLanguage.value = "kg"
+                                else -> currentLanguage.value = "en"
+                            }
+                            selectedLanguage = currentLanguage.value
+                            expanded = false
                         }
-                        selectedLanguage = currentLanguage.value
-                        expanded = false
+                    ) {
+                        Text(text = language)
                     }
-                ) {
-                    Text(text = language)
                 }
             }
         }
     }
-        }
 }
