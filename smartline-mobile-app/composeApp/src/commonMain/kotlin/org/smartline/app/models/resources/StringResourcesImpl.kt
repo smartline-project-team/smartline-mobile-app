@@ -15,6 +15,12 @@ class EnStringResources : StringResources {
         get() = "Русский"
     override val kyrgyzText: String
         get() = "Кыргыздар"
+    override val numberText: String
+        get() = "Number"
+    override val enterEmailText: String
+        get() = "Enter your email address"
+    override val enterNumberText: String
+        get() = "Enter your tel. number"
 }
 
 class RuStringResources : StringResources {
@@ -32,6 +38,12 @@ class RuStringResources : StringResources {
         get() = "Русский"
     override val kyrgyzText: String
         get() = "Кыргыздар"
+    override val numberText: String
+        get() = "Номер"
+    override val enterEmailText: String
+        get() = "Введите ваш адрес эл. почты"
+    override val enterNumberText: String
+        get() = "Ведите ваш номер телефона"
 }
 
 class KgStringResources : StringResources {
@@ -49,4 +61,10 @@ class KgStringResources : StringResources {
         get() = "Русский"
     override val kyrgyzText: String
         get() = "Кыргыздар"
+    override val numberText: String
+        get() = "Бөлмө"
+    override val enterEmailText: String
+        get() = "Сиздин дарек эл. почта"
+    override val enterNumberText: String
+        get() = "Телефон номериңизди киргизиңиз"
 }

@@ -8,4 +8,7 @@ interface StringResources {
     val englishText: String
     val russianText: String
     val kyrgyzText: String
+    val numberText: String
+    val enterEmailText: String
+    val enterNumberText: String
 }

@@ -28,13 +28,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.Font
 import org.smartline.app.KColor
+import org.smartline.app.generated.resources.Jost
+import org.smartline.app.generated.resources.Res
 import org.smartline.app.models.ApiRequest
+import org.smartline.app.models.resources.Resources
 
 @Composable
 fun TabRow(isEmailTabSelected: Boolean, onTabSelected: (Boolean) -> Unit) {
@@ -42,23 +48,23 @@ fun TabRow(isEmailTabSelected: Boolean, onTabSelected: (Boolean) -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = Color.Black,
+                color = KColor.secondary,
                 shape = RoundedCornerShape(16.dp)
             )
             .padding(4.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         TabButton(
-            text = "Номер",
+            text = Resources.strings.numberText,
             isSelected = !isEmailTabSelected,
             modifier = Modifier.weight(1f) // Half width
         ) {
             onTabSelected(false)
         }
         TabButton(
-            text = "Почта",
+            text = Resources.strings.emailText,
             isSelected = isEmailTabSelected,
-            modifier = Modifier.weight(1f) // Half width
+            modifier = Modifier.weight(1f),
         ) {
             onTabSelected(true)
         }
@@ -77,7 +83,8 @@ fun TabButton(text: String, isSelected: Boolean, modifier: Modifier = Modifier, 
             .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
-        Text(text = text, color = textColor, fontSize = 14.sp)
+        Text(text = text, color = textColor, fontSize = 14.sp,
+            fontFamily = FontFamily(Font(Res.font.Jost)))
     }
 }
 
@@ -95,9 +102,10 @@ fun AuthView(showContent: MutableState<Boolean>, showConfirmation: MutableState<
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Вход",
+                text = Resources.strings.loginText,
                 style = MaterialTheme.typography.h3,
-                color = Color.Black
+                fontFamily = FontFamily(Font(Res.font.Jost)),
+                color = KColor.secondary
             )
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -111,23 +119,25 @@ fun AuthView(showContent: MutableState<Boolean>, showConfirmation: MutableState<
             BasicTextField(
                 value = email,
                 onValueChange = { email = it },
-                textStyle = TextStyle(color = Color.Black, fontSize = 16.sp),
+                textStyle = TextStyle(color = KColor.background, fontSize = 16.sp),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                cursorBrush = SolidColor(KColor.background),
                 decorationBox = { innerTextField ->
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(
-                                color = Color.Black,
+                                color = KColor.secondary,
                                 shape = RoundedCornerShape(16.dp)
                             )
                             .padding(horizontal = 16.dp, vertical = 12.dp)
                     ) {
                         if (email.isEmpty()) {
                             Text(
-                                text = "Введите ваш номер",
-                                style = TextStyle(color = Color.Gray, fontSize = 16.sp)
+                                text = if(isEmailTabSelected) Resources.strings.enterEmailText
+                                else Resources.strings.enterNumberText,
+                                style = TextStyle(color = KColor.background, fontSize = 16.sp)
                             )
                         }
                         innerTextField()
@@ -135,14 +145,7 @@ fun AuthView(showContent: MutableState<Boolean>, showConfirmation: MutableState<
                 }
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                text = "У вас уже есть аккаунт?",
-                style = TextStyle(color = Color.Gray, fontSize = 14.sp)
-            )
-
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
             Button(
                 onClick = {
@@ -162,12 +165,13 @@ fun AuthView(showContent: MutableState<Boolean>, showConfirmation: MutableState<
                     .fillMaxWidth()
                     .height(48.dp),
                 shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(Color.Blue)
+                colors = ButtonDefaults.buttonColors(KColor.primary)
             ) {
                 Text(
-                    text = "Далее",
-                    color = Color.White,
-                    style = TextStyle(fontSize = 16.sp)
+                    text = Resources.strings.welcomeButtonText,
+                    color = KColor.background,
+                    style = TextStyle(fontSize = 16.sp),
+                    fontFamily = FontFamily(Font(Res.font.Jost))
                 )
             }
         }
