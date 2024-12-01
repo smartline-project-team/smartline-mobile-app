@@ -103,7 +103,7 @@ fun WelcomeView(next: MutableState<String>, currentLanguage: MutableState<String
                 .align(Alignment.TopEnd)
                 .wrapContentSize(Alignment.TopEnd)
                 .padding(8.dp)
-                .background(Color.LightGray, shape = RoundedCornerShape(8.dp))
+                .background(KColor.background, shape = RoundedCornerShape(8.dp))
                 .clickable { expanded = true }
                 .padding(8.dp)
 
