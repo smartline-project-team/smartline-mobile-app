@@ -65,7 +65,6 @@ fun TabRow(isEmailTabSelected: Boolean, onTabSelected: (Boolean) -> Unit) {
     }
 }
 
-@OptIn(ExperimentalStdlibApi::class)
 @Composable
 fun TabButton(text: String, isSelected: Boolean, modifier: Modifier = Modifier, onClick: () -> Unit) {
     val backgroundColor = if (isSelected) KColor.primary else Color.Transparent
@@ -95,7 +94,6 @@ fun AuthView(showContent: MutableState<Boolean>, showConfirmation: MutableState<
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Title
             Text(
                 text = "Вход",
                 style = MaterialTheme.typography.h3,
@@ -104,14 +102,12 @@ fun AuthView(showContent: MutableState<Boolean>, showConfirmation: MutableState<
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Tab selector
             TabRow(isEmailTabSelected) { selected ->
                 isEmailTabSelected = selected
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Input field
             BasicTextField(
                 value = email,
                 onValueChange = { email = it },
@@ -141,7 +137,6 @@ fun AuthView(showContent: MutableState<Boolean>, showConfirmation: MutableState<
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Subtitle text
             Text(
                 text = "У вас уже есть аккаунт?",
                 style = TextStyle(color = Color.Gray, fontSize = 14.sp)
@@ -149,7 +144,6 @@ fun AuthView(showContent: MutableState<Boolean>, showConfirmation: MutableState<
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Button
             Button(
                 onClick = {
                     val apiRequest =
