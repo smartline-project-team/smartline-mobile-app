@@ -46,7 +46,7 @@ class KgStringResources : StringResources {
     override val englishText: String
         get() = "English"
     override val russianText: String
-        get() = "Russian"
+        get() = "Русский"
     override val kyrgyzText: String
         get() = "Кыргыздар"
 }
