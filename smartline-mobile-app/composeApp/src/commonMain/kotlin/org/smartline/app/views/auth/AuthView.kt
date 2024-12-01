@@ -78,7 +78,7 @@ fun TabButton(text: String, isSelected: Boolean, modifier: Modifier = Modifier, 
             .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
-        Text(text = text, color = textColor, style = TextStyle(fontSize = 14.sp))
+        Text(text = text, color = textColor, fontSize = 14.sp)
     }
 }
 
