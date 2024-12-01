@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     kotlin("plugin.serialization") version "1.9.10"
+    id("io.github.mohitsoni48.KColor")
 }
 
 kotlin {
@@ -27,7 +28,11 @@ kotlin {
             isStatic = true
         }
     }
-    
+
+    sourceSets.commonMain {
+        kotlin.srcDir("build/generated/colors")
+    }
+
     sourceSets {
         
         androidMain.dependencies {
@@ -56,6 +61,12 @@ kotlin {
             implementation(libs.ktor.client.darwin)
         }
     }
+}
+
+kColor {
+    packageName = "org.smartline.app"
+    sharedModule = "composeApp" //optional, default is shared
+    iosAppName = "iosApp"   //optional, default is iosApp
 }
 
 compose.resources {
