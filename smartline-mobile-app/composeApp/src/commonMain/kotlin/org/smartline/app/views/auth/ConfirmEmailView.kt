@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.LocalTextStyle
+import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -25,15 +26,20 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
+import org.smartline.app.models.ApiRequest
+import org.smartline.app.utils.ConvertCode
 
 @Composable
-fun ConfirmEmailView(showContent: MutableState<Boolean>) {
-    val digitsQuantity = 4
+fun ConfirmEmailView(showContent: MutableState<Boolean>, email: MutableState<String>,
+                     showNext: MutableState<Boolean>) {
+    val digitsQuantity = 6
+    var confirmationCode  = "pidor"
     var code by remember { mutableStateOf(List(digitsQuantity) { "" }) }
     val focusRequesters = List(digitsQuantity) { FocusRequester() }
     AnimatedVisibility(showContent.value) {
         Column(
-            modifier = Modifier.fillMaxWidth(0.8f),
+            modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
@@ -56,7 +62,7 @@ fun ConfirmEmailView(showContent: MutableState<Boolean>) {
                             }
                         },
                         modifier = Modifier
-                            .width(50.dp)
+                            .width(45.dp)
                             .height(60.dp)
                             .focusRequester(focusRequesters[index]),
                         singleLine = true,
@@ -69,14 +75,34 @@ fun ConfirmEmailView(showContent: MutableState<Boolean>) {
                         ),
                         keyboardActions = KeyboardActions(
                             onDone = {
-                                if (index == digitsQuantity - 2) {
-                                    focusRequesters[index].freeFocus()
+                                if (index == digitsQuantity) {
+                                    focusRequesters[index - 1].freeFocus()
+                                }
+                                confirmationCode = ConvertCode(code)
+                                println(confirmationCode)
+                                println(digitsQuantity)
+                                println(email.value)
+                                val apiRequest =
+                                    ApiRequest(
+                                        "https://smartlineapi.pythonanywhere.com/api/auth/confirm-code/",
+                                        mapOf("email" to email.value, "phone" to "string",
+                                            "code" to confirmationCode)
+                                    )
+                                kotlinx.coroutines.MainScope().launch {
+                                    println("ok")
+                                    val apiResponse = apiRequest.send()
+                                    println(apiResponse)
+                                    if (apiResponse.status == 200) {
+                                        showNext.value = true
+                                        showContent.value = false
+                                    }
                                 }
                             }
                         )
                     )
                 }
             }
+            Text(confirmationCode)
         }
     }
 }

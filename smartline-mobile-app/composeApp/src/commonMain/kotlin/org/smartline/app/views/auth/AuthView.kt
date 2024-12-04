@@ -40,6 +40,7 @@ import org.smartline.app.KColor
 import org.smartline.app.generated.resources.Jost
 import org.smartline.app.generated.resources.Res
 import org.smartline.app.models.ApiRequest
+import org.smartline.app.models.ApiResponse
 import org.smartline.app.models.resources.Resources
 
 @Composable
@@ -89,8 +90,8 @@ fun TabButton(text: String, isSelected: Boolean, modifier: Modifier = Modifier, 
 }
 
 @Composable
-fun AuthView(showContent: MutableState<Boolean>, showConfirmation: MutableState<Boolean>) {
-    var email by remember { mutableStateOf("") }
+fun AuthView(showContent: MutableState<Boolean>, showConfirmation: MutableState<Boolean>,
+             email: MutableState<String>) {
     var isEmailTabSelected by remember { mutableStateOf(true) }
 
     AnimatedVisibility(visible = showContent.value) {
@@ -117,8 +118,8 @@ fun AuthView(showContent: MutableState<Boolean>, showConfirmation: MutableState<
             Spacer(modifier = Modifier.height(16.dp))
 
             BasicTextField(
-                value = email,
-                onValueChange = { email = it },
+                value = email.value,
+                onValueChange = { email.value = it },
                 textStyle = TextStyle(color = KColor.background, fontSize = 16.sp),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
@@ -133,7 +134,7 @@ fun AuthView(showContent: MutableState<Boolean>, showConfirmation: MutableState<
                             )
                             .padding(horizontal = 16.dp, vertical = 12.dp)
                     ) {
-                        if (email.isEmpty()) {
+                        if (email.value.isEmpty()) {
                             Text(
                                 text = if(isEmailTabSelected) Resources.strings.enterEmailText
                                 else Resources.strings.enterNumberText,
@@ -146,18 +147,18 @@ fun AuthView(showContent: MutableState<Boolean>, showConfirmation: MutableState<
             )
 
             Spacer(modifier = Modifier.height(40.dp))
-
             Button(
                 onClick = {
                     val apiRequest =
                         ApiRequest(
-                            "https://smartlineapi.pythonanywhere.com/api/auth/login/",
-                            mapOf("email" to email, "password" to "pidorasik1")
+                            "https://smartlineapi.pythonanywhere.com/api/auth/send-code/",
+                            mapOf("email" to email.value, "phone" to "string")
                         )
                     kotlinx.coroutines.MainScope().launch {
                         val apiResponse = apiRequest.send()
                         if (apiResponse.status == 200) {
                             showConfirmation.value = true
+                            showContent.value = false
                         }
                     }
                 },

@@ -40,14 +40,20 @@ fun App() {
                 "authScreen" -> {
                     val showContent = remember { mutableStateOf(true) }
                     val showConfirmation = remember { mutableStateOf(false) }
+                    val showNext = remember { mutableStateOf(false) }
+                    val email = remember { mutableStateOf("") }
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         Column(
                             modifier = Modifier.fillMaxWidth(0.8f),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
-                            AuthView(showContent = showContent, showConfirmation = showConfirmation)
-                            ConfirmEmailView(showContent = showConfirmation)
+                            AuthView(showContent = showContent,
+                                showConfirmation = showConfirmation, email)
+                            ConfirmEmailView(showContent = showConfirmation, email, showNext)
+                            if (showNext.value) {
+                                screen.value = "MainApp"
+                            }
                         }
                     }
                 }
