@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -26,15 +25,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.russhwolf.settings.Settings
+import com.russhwolf.settings.set
 import kotlinx.coroutines.launch
-import org.smartline.app.models.ApiRequest
+import org.smartline.app.models.auth.ApiRequest
+import org.smartline.app.models.auth.parseConfirmationCode
 import org.smartline.app.utils.ConvertCode
 
 @Composable
 fun ConfirmEmailView(showContent: MutableState<Boolean>, email: MutableState<String>,
                      showNext: MutableState<Boolean>) {
     val digitsQuantity = 6
-    var confirmationCode  = "pidor"
     var code by remember { mutableStateOf(List(digitsQuantity) { "" }) }
     val focusRequesters = List(digitsQuantity) { FocusRequester() }
     AnimatedVisibility(showContent.value) {
@@ -59,6 +60,28 @@ fun ConfirmEmailView(showContent: MutableState<Boolean>, email: MutableState<Str
                                 if (input.isNotEmpty() && index < digitsQuantity - 1) {
                                     focusRequesters[index + 1].requestFocus()
                                 }
+                                if (index == digitsQuantity - 1) {
+                                    focusRequesters[index - 1].freeFocus()
+                                    val confirmationCode = ConvertCode(code)
+                                    val apiRequest =
+                                        ApiRequest(
+                                            "https://smartlineapi.pythonanywhere.com/api/auth/confirm-code/",
+                                            mapOf("email" to email.value, "phone" to "string",
+                                                "code" to confirmationCode)
+                                        )
+                                    kotlinx.coroutines.MainScope().launch {
+                                        val apiResponse = apiRequest.send()
+                                        if (apiResponse.status == 200) {
+                                            val settings = Settings()
+                                            val responseCode = parseConfirmationCode(apiResponse.data)
+                                            if(responseCode != null) {
+                                                settings["token"] = responseCode.tokens["access"]
+                                            }
+                                            showNext.value = true
+                                            showContent.value = false
+                                        }
+                                    }
+                                }
                             }
                         },
                         modifier = Modifier
@@ -78,10 +101,7 @@ fun ConfirmEmailView(showContent: MutableState<Boolean>, email: MutableState<Str
                                 if (index == digitsQuantity) {
                                     focusRequesters[index - 1].freeFocus()
                                 }
-                                confirmationCode = ConvertCode(code)
-                                println(confirmationCode)
-                                println(digitsQuantity)
-                                println(email.value)
+                                val confirmationCode = ConvertCode(code)
                                 val apiRequest =
                                     ApiRequest(
                                         "https://smartlineapi.pythonanywhere.com/api/auth/confirm-code/",
@@ -89,9 +109,7 @@ fun ConfirmEmailView(showContent: MutableState<Boolean>, email: MutableState<Str
                                             "code" to confirmationCode)
                                     )
                                 kotlinx.coroutines.MainScope().launch {
-                                    println("ok")
                                     val apiResponse = apiRequest.send()
-                                    println(apiResponse)
                                     if (apiResponse.status == 200) {
                                         showNext.value = true
                                         showContent.value = false
@@ -102,7 +120,6 @@ fun ConfirmEmailView(showContent: MutableState<Boolean>, email: MutableState<Str
                     )
                 }
             }
-            Text(confirmationCode)
         }
     }
 }
