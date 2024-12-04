@@ -1,4 +1,4 @@
-package org.smartline.app.models
+package org.smartline.app.models.auth
 
 import io.ktor.client.*
 import io.ktor.client.call.*
