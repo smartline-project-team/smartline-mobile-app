@@ -39,7 +39,7 @@ import org.jetbrains.compose.resources.Font
 import org.smartline.app.KColor
 import org.smartline.app.generated.resources.Jost
 import org.smartline.app.generated.resources.Res
-import org.smartline.app.models.ApiRequest
+import org.smartline.app.models.auth.ApiRequest
 import org.smartline.app.models.resources.Resources
 
 @Composable

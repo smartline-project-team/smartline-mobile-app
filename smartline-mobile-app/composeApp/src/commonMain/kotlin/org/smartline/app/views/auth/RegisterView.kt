@@ -26,7 +26,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import org.smartline.app.models.ApiRequest
+import org.smartline.app.models.auth.ApiRequest
 
 @Composable
 fun RegisterView(showLogin: MutableState<Boolean>, showRegister: MutableState<Boolean>,

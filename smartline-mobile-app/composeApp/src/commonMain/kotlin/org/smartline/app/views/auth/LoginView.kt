@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Done
-import org.smartline.app.models.ApiRequest
+import org.smartline.app.models.auth.ApiRequest
 
 @Composable
 fun LoginView(showLogin: MutableState<Boolean>, showRegister: MutableState<Boolean>,
