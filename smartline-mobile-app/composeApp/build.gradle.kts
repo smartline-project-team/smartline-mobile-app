@@ -56,7 +56,7 @@ kotlin {
             implementation(libs.runtime)
             implementation(libs.material)
             api(compose.components.resources)
-            implementation("com.russhwolf:multiplatform-settings:1.0.0")
+            implementation("com.russhwolf:multiplatform-settings:1.2.0")
             implementation("com.russhwolf:multiplatform-settings-no-arg:1.2.0")
         }
         iosMain.dependencies {
