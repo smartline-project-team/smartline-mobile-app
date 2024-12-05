@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.russhwolf.settings.Settings
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.smartline.app.models.resources.LocalStringResources
 import org.smartline.app.models.resources.StringFactory
@@ -31,7 +32,10 @@ fun App() {
     CompositionLocalProvider(
         LocalStringResources provides stringResources
     ) {
-        val screen = remember { mutableStateOf("mainAppScreen") }
+        val settings = Settings()
+        val screen = remember { mutableStateOf("welcomeScreen") }
+        if (settings.getStringOrNull("token") != null) screen.value = "mainAppScreen"
+
         MaterialTheme {
             when (screen.value) {
                 "welcomeScreen" -> {
