@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "130075382874",
+    "project_id": "smartline-app-bdf29",
+    "storage_bucket": "smartline-app-bdf29.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130075382874:android:6057c56e88fc8d41207463",
+        "android_client_info": {
+          "package_name": "org.smartline.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgwq0OTqeZZjY-y1CBT8E2M6bGUpXn1Vg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

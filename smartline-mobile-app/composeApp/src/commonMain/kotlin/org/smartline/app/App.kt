@@ -19,6 +19,7 @@ import org.smartline.app.models.resources.StringFactory
 import org.smartline.app.models.resources.StringResources
 import org.smartline.app.views.auth.AuthView
 import org.smartline.app.views.auth.ConfirmEmailView
+import org.smartline.app.views.main.MainScreenView
 import org.smartline.app.views.start.WelcomeView
 
 
@@ -30,7 +31,7 @@ fun App() {
     CompositionLocalProvider(
         LocalStringResources provides stringResources
     ) {
-        val screen = remember { mutableStateOf("welcomeScreen") }
+        val screen = remember { mutableStateOf("mainAppScreen") }
         MaterialTheme {
             when (screen.value) {
                 "welcomeScreen" -> {
@@ -52,11 +53,13 @@ fun App() {
                                 showConfirmation = showConfirmation, email)
                             ConfirmEmailView(showContent = showConfirmation, email, showNext)
                             if (showNext.value) {
-                                screen.value = "MainApp"
+                                screen.value = "mainAppScreen"
                             }
                         }
                     }
                 }
+
+                "mainAppScreen" -> MainScreenView()
             }
         }
     }
