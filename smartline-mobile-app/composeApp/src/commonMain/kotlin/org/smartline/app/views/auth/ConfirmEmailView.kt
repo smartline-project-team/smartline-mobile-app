@@ -29,7 +29,8 @@ import com.russhwolf.settings.Settings
 import com.russhwolf.settings.set
 import kotlinx.coroutines.launch
 import org.smartline.app.models.auth.ApiRequest
-import org.smartline.app.models.auth.parseConfirmationCode
+import org.smartline.app.models.auth.ConfirmationCode
+import org.smartline.app.serializers.ParseJson
 import org.smartline.app.utils.ConvertCode
 
 @Composable
@@ -73,7 +74,7 @@ fun ConfirmEmailView(showContent: MutableState<Boolean>, email: MutableState<Str
                                         val apiResponse = apiRequest.send()
                                         if (apiResponse.status == 200) {
                                             val settings = Settings()
-                                            val responseCode = parseConfirmationCode(apiResponse.data)
+                                            val responseCode = ParseJson<ConfirmationCode>(apiResponse.data)
                                             if(responseCode != null) {
                                                 settings["token"] = responseCode.tokens["access"]
                                             }
