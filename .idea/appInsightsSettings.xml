@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="org.smartline.app" />
+                  <option name="mobileSdkAppId" value="1:130075382874:android:6057c56e88fc8d41207463" />
+                  <option name="projectId" value="smartline-app-bdf29" />
+                  <option name="projectNumber" value="130075382874" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
