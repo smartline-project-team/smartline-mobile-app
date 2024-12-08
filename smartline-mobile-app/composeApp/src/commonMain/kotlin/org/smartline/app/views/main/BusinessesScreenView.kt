@@ -27,7 +27,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import org.smartline.app.KColor
+import org.smartline.app.models.buisnesses.Business
 import org.smartline.app.utils.GetBusinesses
 
 @Composable
@@ -73,8 +75,11 @@ fun MainContent(type: String) {
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val buttons = GetBusinesses(type)
-        buttons.forEach { business ->
+        val businesses = remember { mutableStateOf<List<Business>?>(null) }
+        kotlinx.coroutines.MainScope().launch {
+            businesses.value = GetBusinesses(type)
+        }
+        businesses.value?.forEach { business ->
             Button(
                 onClick = { /* Handle click */ },
                 modifier = Modifier.fillMaxWidth(),
