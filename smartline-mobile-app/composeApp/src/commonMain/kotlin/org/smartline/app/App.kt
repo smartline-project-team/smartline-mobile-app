@@ -20,7 +20,8 @@ import org.smartline.app.models.resources.StringFactory
 import org.smartline.app.models.resources.StringResources
 import org.smartline.app.views.auth.AuthView
 import org.smartline.app.views.auth.ConfirmEmailView
-import org.smartline.app.views.main.MainScreenView
+import org.smartline.app.views.main.CategoriesScreenView
+import org.smartline.app.views.main.BusinessesScreenView
 import org.smartline.app.views.start.WelcomeView
 
 
@@ -62,7 +63,8 @@ fun App() {
                     }
                 }
 
-                "mainAppScreen" -> MainScreenView()
+                "mainAppScreen" -> CategoriesScreenView(screen)
+                "businessesScreen" -> BusinessesScreenView("")
             }
         }
     }
