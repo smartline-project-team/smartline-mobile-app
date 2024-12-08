@@ -71,7 +71,7 @@ fun ConfirmEmailView(showContent: MutableState<Boolean>, email: MutableState<Str
                                                 "code" to confirmationCode)
                                         )
                                     kotlinx.coroutines.MainScope().launch {
-                                        val apiResponse = apiRequest.send()
+                                        val apiResponse = apiRequest.sendPost()
                                         if (apiResponse.status == 200) {
                                             val settings = Settings()
                                             val responseCode = ParseJson<ConfirmationCode>(apiResponse.data)
@@ -110,7 +110,7 @@ fun ConfirmEmailView(showContent: MutableState<Boolean>, email: MutableState<Str
                                             "code" to confirmationCode)
                                     )
                                 kotlinx.coroutines.MainScope().launch {
-                                    val apiResponse = apiRequest.send()
+                                    val apiResponse = apiRequest.sendPost()
                                     if (apiResponse.status == 200) {
                                         showNext.value = true
                                         showContent.value = false

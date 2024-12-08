@@ -154,7 +154,7 @@ fun AuthView(showContent: MutableState<Boolean>, showConfirmation: MutableState<
                             mapOf("email" to email.value, "phone" to "string")
                         )
                     kotlinx.coroutines.MainScope().launch {
-                        val apiResponse = apiRequest.send()
+                        val apiResponse = apiRequest.sendPost()
                         if (apiResponse.status == 200) {
                             showConfirmation.value = true
                             showContent.value = false
