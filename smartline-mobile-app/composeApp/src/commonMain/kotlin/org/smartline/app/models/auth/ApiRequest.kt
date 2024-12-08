@@ -12,7 +12,7 @@ import kotlinx.serialization.json.Json
 
 class ApiRequest(val apiLink: String, val parameters: Map<String, String>) {
 
-    suspend fun send(): ApiResponse = withContext(Dispatchers.Default) {
+    suspend fun sendPost(): ApiResponse = withContext(Dispatchers.Default) {
         val client = HttpClient()
         
         try {
@@ -34,6 +34,30 @@ class ApiRequest(val apiLink: String, val parameters: Map<String, String>) {
                 status = 500,
                 data = null,
                 error = e.message ?: "Unknown error occurred"
+            )
+        } finally {
+            client.close()
+        }
+    }
+
+    suspend fun sendGet(): ApiResponse = withContext(Dispatchers.Default) {
+        val client = HttpClient()
+
+        try {
+            val response: HttpResponse = client.get(apiLink)
+
+            val responseBody: String = response.body()
+
+            ApiResponse(
+                status = response.status.value,
+                data = responseBody,
+                error = null
+            )
+        } catch (e: Exception) {
+            ApiResponse(
+                status = 500,
+                data = null,
+                error = e.message?: "Unknown error occurred"
             )
         } finally {
             client.close()
