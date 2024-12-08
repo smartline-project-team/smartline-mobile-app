@@ -28,9 +28,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.smartline.app.KColor
+import org.smartline.app.utils.GetBusinesses
 
 @Composable
-fun BusinessesScreenView() {
+fun BusinessesScreenView(type: String) {
     var selectedTabIndex by remember { mutableStateOf(0) }
 
     Column(
@@ -56,7 +57,7 @@ fun BusinessesScreenView() {
         }
 
         if (selectedTabIndex == 0) {
-            MainContent()
+            MainContent(type)
         } else {
             ProfileContent()
         }
@@ -64,7 +65,7 @@ fun BusinessesScreenView() {
 }
 
 @Composable
-fun MainContent() {
+fun MainContent(type: String) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -72,8 +73,8 @@ fun MainContent() {
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val buttons = listOf("Барбершопы", "Спа-салоны", "Фитнес-студии", "Ногтевые студии")
-        buttons.forEach { text ->
+        val buttons = GetBusinesses(type)
+        buttons.forEach { business ->
             Button(
                 onClick = { /* Handle click */ },
                 modifier = Modifier.fillMaxWidth(),
@@ -85,7 +86,7 @@ fun MainContent() {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = text, color = KColor.background, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    Text(text = business.name, color = KColor.background, fontSize = 16.sp, fontWeight = FontWeight.Bold)
                     Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null, tint = KColor.background)
                 }
             }

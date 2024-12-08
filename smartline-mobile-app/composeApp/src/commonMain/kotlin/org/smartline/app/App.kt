@@ -20,7 +20,6 @@ import org.smartline.app.models.resources.StringFactory
 import org.smartline.app.models.resources.StringResources
 import org.smartline.app.views.auth.AuthView
 import org.smartline.app.views.auth.ConfirmEmailView
-import org.smartline.app.views.main.BusinessesScreenView
 import org.smartline.app.views.main.MainScreenView
 import org.smartline.app.views.start.WelcomeView
 
@@ -36,7 +35,6 @@ fun App() {
         val settings = Settings()
         val screen = remember { mutableStateOf("welcomeScreen") }
         if (settings.getStringOrNull("token") != null) screen.value = "mainAppScreen"
-        screen.value = "mainAppScreen"
         MaterialTheme {
             when (screen.value) {
                 "welcomeScreen" -> {
