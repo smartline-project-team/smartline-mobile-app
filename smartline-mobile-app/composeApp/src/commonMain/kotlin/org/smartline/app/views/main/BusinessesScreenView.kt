@@ -1,5 +1,6 @@
 package org.smartline.app.views.main
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,11 +13,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,12 +39,28 @@ import org.smartline.app.utils.GetBusinesses
 @Composable
 fun BusinessesScreenView(type: String) {
     var selectedTabIndex by remember { mutableStateOf(0) }
-
+    var isMenuOpen by remember { mutableStateOf(false) }
+    AnimatedVisibility(isMenuOpen) {
+        MenuView()
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(KColor.secondary)
     ) {
+        TopAppBar(
+            title = { Text("Главная") },
+            navigationIcon = {
+                IconButton(onClick = { isMenuOpen = !isMenuOpen }) {
+                    Icon(
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = "Menu Icon"
+                    )
+                }
+            },
+            backgroundColor = KColor.background,
+            contentColor = KColor.secondary
+        )
         TabRow(
             selectedTabIndex = selectedTabIndex,
             backgroundColor = KColor.secondary,

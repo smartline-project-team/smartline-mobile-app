@@ -53,63 +53,10 @@ fun CategoriesScreenView(next: MutableState<String>) {
         categories.value = GetCategories()
     }
 
-    Row(Modifier.fillMaxSize()) {
+
         // Side Menu
         AnimatedVisibility(isMenuOpen) {
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .width(250.dp)
-                    .background(KColor.secondary),
-
-                ) {
-                Column(
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Row(Modifier.fillMaxWidth()) {
-                        Text(
-                            text = "Привет!",
-                            fontSize = 20.sp,
-                            fontFamily = FontFamily(Font(Res.font.Jost)),
-                            color = KColor.background,
-                            modifier = Modifier.padding(16.dp).align(Alignment.Top)
-                        )
-                        Box (
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.CenterEnd,
-                        ){
-                            IconButton(
-                                onClick = { /* Add profile action */ }) {
-                                Icon(
-                                    imageVector = Icons.Default.Person,
-                                    contentDescription = "Profile Icon",
-                                    tint = KColor.background,
-                                )
-                            }
-                        }
-                    }
-                }
-                Spacer(modifier = Modifier.height(20.dp))
-                Column(
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    menuItems.forEach { menuItem ->
-                        Text(
-                            text = menuItem,
-                            fontSize = 16.sp,
-                            color = KColor.background,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { /* Handle navigation */ }
-                                .padding(vertical = 12.dp, horizontal = 16.dp)
-                                .background(KColor.primary, shape = RoundedCornerShape(8.dp))
-                                .padding(12.dp),
-                        )
-                    }
-                }
-
-            }
+            MenuView()
         }
 
         // Main Content
@@ -170,4 +117,3 @@ fun CategoriesScreenView(next: MutableState<String>) {
             }
         }
     }
-}
