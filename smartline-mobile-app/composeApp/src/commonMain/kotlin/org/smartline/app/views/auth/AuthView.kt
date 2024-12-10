@@ -41,6 +41,7 @@ import org.smartline.app.generated.resources.Jost
 import org.smartline.app.generated.resources.Res
 import org.smartline.app.models.auth.ApiRequest
 import org.smartline.app.models.resources.Resources
+import org.smartline.app.views.loaders.LoadingView
 
 @Composable
 fun TabRow(isEmailTabSelected: Boolean, onTabSelected: (Boolean) -> Unit) {

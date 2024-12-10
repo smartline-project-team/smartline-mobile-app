@@ -56,8 +56,9 @@ kotlin {
             implementation(libs.runtime)
             implementation(libs.material)
             api(compose.components.resources)
-            implementation("com.russhwolf:multiplatform-settings:1.2.0")
-            implementation("com.russhwolf:multiplatform-settings-no-arg:1.2.0")
+            implementation(libs.multiplatform.settings)
+            implementation(libs.multiplatform.settings.no.arg)
+            implementation(libs.lottie.compose)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
